@@ -25,15 +25,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget splashScreen() {
       // ignore: unnecessary_new
-      return SplashScreenView(
-        navigateRoute: HomePage(),
-        duration: 5000,
-        imageSize: 150,
-        imageSrc: 'assets/images/logos.png',
-        backgroundColor: Colors.red,
-        text: 'Resto App',
-        textType: TextType.NormalText,
-        textStyle: whiteTextStyle.copyWith(fontSize: 28, fontWeight: bold),
+      return Hero(
+        tag: 'assets/images/logos.png',
+        child: SplashScreenView(
+          navigateRoute: HomePage(),
+          duration: 5000,
+          imageSize: 150,
+          imageSrc: 'assets/images/logos.png',
+          backgroundColor: Colors.red,
+          text: 'Resto App',
+          textType: TextType.NormalText,
+          textStyle: whiteTextStyle.copyWith(fontSize: 28, fontWeight: bold),
+        ),
       );
     }
 

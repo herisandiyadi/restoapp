@@ -81,7 +81,10 @@ class ListSearchRestaurant extends StatelessWidget {
           );
         } else if (state.restaurantState == RestaurantState.error) {
           return Center(
-            child: Text(state.message),
+            child: Text(
+              state.message,
+              style: greyTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+            ),
           );
         } else {
           return Center(

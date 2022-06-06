@@ -18,6 +18,11 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: whiteColor,
           elevation: 1,
+          leading: Padding(
+            padding:
+                const EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 8),
+            child: Image.asset('assets/images/logos.png'),
+          ),
           actions: [
             IconButton(
               onPressed: () {

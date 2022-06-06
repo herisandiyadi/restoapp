@@ -252,8 +252,11 @@ class ListDetail extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(
-                    child: Image(
-                      image: NetworkImage(_images + resultDetails.pictureId),
+                    child: Hero(
+                      tag: _images + resultDetails.pictureId,
+                      child: Image(
+                        image: NetworkImage(_images + resultDetails.pictureId),
+                      ),
                     ),
                   ),
                   Container(

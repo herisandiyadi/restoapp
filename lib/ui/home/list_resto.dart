@@ -41,7 +41,7 @@ class _ListRestoState extends State<ListResto> {
         return Center(
             child: Text(
           state.message,
-          style: darkTextStyle.copyWith(fontSize: 16, fontWeight: bold),
+          style: greyTextStyle.copyWith(fontSize: 16, fontWeight: bold),
         ));
       }
       return Center(

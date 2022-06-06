@@ -38,7 +38,8 @@ class RestoDetailProvider extends ChangeNotifier {
       }
     } on SocketException {
       _detailstate = ResultState.NoInternet;
-      return _message = 'Gagal menyambungkan ke server';
+      notifyListeners();
+      return _message = 'Not connected to the internet...';
     } catch (e) {
       _detailstate = ResultState.HasData;
       notifyListeners();
