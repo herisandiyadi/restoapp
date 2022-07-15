@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
-
+import 'package:restaurant_app/ui/home/list_recomend_resto.dart';
 import 'package:restaurant_app/ui/home/list_resto.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,11 +18,25 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: whiteColor,
           elevation: 1,
-          leading: Padding(
-            padding:
-                const EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 8),
-            child: Image.asset('assets/images/logos.png'),
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'assets/images/logos.png',
+                  height: 24,
+                  width: 24,
+                ),
+              ),
+              Text(
+                'Resto App',
+                style: darkTextStyle.copyWith(fontSize: 18, fontWeight: bold),
+              ),
+            ],
           ),
+          centerTitle: true,
           actions: [
             IconButton(
               onPressed: () {
@@ -38,18 +52,37 @@ class _HomePageState extends State<HomePage> {
         body: ListView(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 16, bottom: 10, top: 10),
+              margin: EdgeInsets.only(left: 16, top: 10),
               child: Text(
                 'Recomendation restaurant for you!',
                 textAlign: TextAlign.start,
                 style:
-                    greyTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
+                    greyTextStyle.copyWith(fontSize: 14, fontWeight: semiBold),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15),
+              child: ListRecomendResto(),
+            ),
+            SizedBox(
+              height: 14,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 15),
+              child: Text(
+                'All Restaurant',
+                style:
+                    greyTextStyle.copyWith(fontSize: 14, fontWeight: semiBold),
               ),
             ),
             SizedBox(
-              height: 640,
+              height: 600,
               child: ListResto(),
             ),
+            // SizedBox(
+            //   height: 640,
+            //   child: ListResto(),
+            // ),
           ],
         ),
       ),

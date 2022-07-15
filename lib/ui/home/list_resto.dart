@@ -16,18 +16,18 @@ class _ListRestoState extends State<ListResto> {
   @override
   Widget build(BuildContext context) {
     return Consumer<RestoProvider?>(builder: (context, state, _) {
-      if (state!.state == ResultState.Loading) {
+      if (state?.state == ResultState.Loading) {
         return Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state.state == ResultState.HasData) {
+      } else if (state!.state == ResultState.HasData) {
         return ListView.builder(
-            itemCount: state.result!.restaurants.length,
+            itemCount: state.result?.restaurants.length,
             itemBuilder: (context, index) {
-              final restoResult = state.result!.restaurants[index];
+              final restoResult = state.result?.restaurants[index];
               return GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/detail-page',
-                    arguments: RestaurantDetailsArgs(id: restoResult.id)),
+                    arguments: RestaurantDetailsArgs(id: restoResult?.id)),
                 child: CardRestaurant(
                   restaurantElement: restoResult,
                 ),

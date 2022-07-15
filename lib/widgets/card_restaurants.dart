@@ -1,18 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/constants.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 
 class CardRestaurant extends StatelessWidget {
-  final RestaurantElement restaurantElement;
+  final RestaurantElement? restaurantElement;
 
   const CardRestaurant({Key? key, required this.restaurantElement})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String _images = 'https://restaurant-api.dicoding.dev/images/medium/';
     return Card(
       elevation: 15,
       margin: EdgeInsets.only(
@@ -24,12 +24,13 @@ class CardRestaurant extends StatelessWidget {
       child: Stack(
         children: [
           Hero(
-            tag: _images + restaurantElement.pictureId,
+            tag: images_url + restaurantElement!.pictureId!,
             child: Container(
               height: 300,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(_images + restaurantElement.pictureId),
+                  image:
+                      NetworkImage(images_url + restaurantElement!.pictureId!),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -63,7 +64,7 @@ class CardRestaurant extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        restaurantElement.name,
+                        restaurantElement!.name!,
                         style: whiteTextStyle.copyWith(
                           fontSize: 18,
                           fontWeight: semiBold,
@@ -75,7 +76,7 @@ class CardRestaurant extends StatelessWidget {
                     children: [
                       Icon(Icons.room, color: orangeColor),
                       Text(
-                        restaurantElement.city,
+                        restaurantElement!.city!,
                         style: whiteTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: semiBold,
@@ -95,7 +96,7 @@ class CardRestaurant extends StatelessWidget {
                 children: [
                   Icon(Icons.star, color: yellowColor),
                   Text(
-                    (restaurantElement.rating).toString(),
+                    (restaurantElement!.rating).toString(),
                     style: whiteTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: semiBold,

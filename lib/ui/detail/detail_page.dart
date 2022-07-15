@@ -22,7 +22,7 @@ class _DetailPageState extends State<DetailPage> {
       body: ChangeNotifierProvider<RestoDetailProvider>(
         create: (_) => RestoDetailProvider(
           apiService: ApiService(),
-          id: widget.detailsArgs.id,
+          id: widget.detailsArgs.id!,
         ),
         child: Consumer<RestoDetailProvider>(
           builder: (context, state, _) {

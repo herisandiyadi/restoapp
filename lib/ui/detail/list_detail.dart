@@ -2,18 +2,30 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/constants.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/data/model/restaurant_detail_args.dart';
+import 'package:restaurant_app/data/model/resto_favorite.dart';
+import 'package:restaurant_app/provider/db_provider.dart';
 
-class ListDetail extends StatelessWidget {
+class ListDetail extends StatefulWidget {
   final RestaurantDetails resultDetails;
 
   const ListDetail({Key? key, required this.resultDetails}) : super(key: key);
 
   @override
+  State<ListDetail> createState() => _ListDetailState();
+}
+
+class _ListDetailState extends State<ListDetail> {
+  @override
   Widget build(BuildContext context) {
-    String _images = 'https://restaurant-api.dicoding.dev/images/medium/';
+    final providerDb = Provider.of<DbProvider>(context, listen: false);
+    // final restoFav = providerDb.restoFavorite;
+    // restoFav.map((e) => e.id);
+
     Widget header() {
       return Container(
         child: Row(
@@ -46,7 +58,7 @@ class ListDetail extends StatelessWidget {
 
     Widget kategoriResto() {
       return Row(
-          children: resultDetails.categories
+          children: widget.resultDetails.categories
               .map((kategori) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Chip(label: Text(kategori.name)),
@@ -58,7 +70,7 @@ class ListDetail extends StatelessWidget {
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: resultDetails.menus.foods
+          children: widget.resultDetails.menus.foods
               .map((foods) => Padding(
                     padding:
                         const EdgeInsets.only(left: 16.0, right: 16.0, top: 10),
@@ -97,7 +109,7 @@ class ListDetail extends StatelessWidget {
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: resultDetails.menus.drinks
+          children: widget.resultDetails.menus.drinks
               .map((drinks) => Padding(
                     padding:
                         const EdgeInsets.only(left: 16.0, right: 16.0, top: 10),
@@ -139,7 +151,7 @@ class ListDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              resultDetails.name + ' - ' + resultDetails.city,
+              widget.resultDetails.name + ' - ' + widget.resultDetails.city,
               style: darkTextStyle.copyWith(
                 fontSize: 18,
                 fontWeight: semiBold,
@@ -155,7 +167,7 @@ class ListDetail extends StatelessWidget {
                 ),
                 SizedBox(width: 6),
                 Text(
-                  resultDetails.address,
+                  widget.resultDetails.address,
                   style: darkTextStyle.copyWith(fontSize: 14),
                 ),
               ],
@@ -166,7 +178,7 @@ class ListDetail extends StatelessWidget {
             Row(
               children: [
                 RatingBar.builder(
-                  initialRating: resultDetails.rating,
+                  initialRating: widget.resultDetails.rating,
                   minRating: 1,
                   allowHalfRating: true,
                   itemCount: 5,
@@ -185,7 +197,7 @@ class ListDetail extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  (resultDetails.rating).toString(),
+                  (widget.resultDetails.rating).toString(),
                 ),
               ],
             ),
@@ -204,7 +216,7 @@ class ListDetail extends StatelessWidget {
               height: 10,
             ),
             Text(
-              resultDetails.description,
+              widget.resultDetails.description,
               style: darkTextStyle.copyWith(
                 fontSize: 14,
                 fontWeight: medium,
@@ -219,7 +231,7 @@ class ListDetail extends StatelessWidget {
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: resultDetails.customerReviews
+          children: widget.resultDetails.customerReviews
               .map((reviews) => Container(
                     width: 360,
                     child: Padding(
@@ -242,146 +254,221 @@ class ListDetail extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      backgroundColor: whiteColor,
-      body: SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Container(
-              child: Stack(
-                children: [
-                  Container(
-                    child: Hero(
-                      tag: _images + resultDetails.pictureId,
-                      child: Image(
-                        image: NetworkImage(_images + resultDetails.pictureId),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 50,
-                    margin: EdgeInsets.only(top: 200),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          whiteColor.withOpacity(0),
-                          darkColor.withOpacity(0.85)
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: RadialGradient(
-                              colors: [
-                                darkColor.withOpacity(0),
-                                darkColor.withOpacity(0.5)
-                              ],
+    return Consumer<DbProvider>(
+      builder: (context, provider, state) {
+        return FutureBuilder<RestoFavorite>(
+            future: provider.getFavById(widget.resultDetails.id),
+            builder: (context, snapshot) {
+              var isFav = snapshot.data?.favorite;
+              print(isFav);
+              return Scaffold(
+                backgroundColor: whiteColor,
+                body: SafeArea(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                        child: Stack(
+                          children: [
+                            Container(
+                              child: Hero(
+                                tag:
+                                    images_url + widget.resultDetails.pictureId,
+                                child: Image(
+                                  image: NetworkImage(images_url +
+                                      widget.resultDetails.pictureId),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              color: whiteColor,
+                            Container(
+                              width: double.infinity,
+                              height: 50,
+                              margin: EdgeInsets.only(top: 200),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    whiteColor.withOpacity(0),
+                                    darkColor.withOpacity(0.85)
+                                  ],
+                                ),
+                              ),
                             ),
+                            Positioned(
+                              top: 10,
+                              right: 10,
+                              child: Container(
+                                // margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle, color: whiteColor),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    final favorite = RestoFavorite(
+                                        id: widget.resultDetails.id,
+                                        favorite: 1,
+                                        name: widget.resultDetails.name,
+                                        imageUrl: images_url +
+                                            widget.resultDetails.pictureId,
+                                        city: widget.resultDetails.city);
+
+                                    if (isFav == 0 || isFav == null) {
+                                      setState(() {
+                                        providerDb.addData(favorite);
+                                        widget.resultDetails.isFavorite = 1;
+                                      });
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          backgroundColor: Colors.green,
+                                          content: Text(
+                                            'Telah ditambahkan ke favorite',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+                                    } else {
+                                      setState(() {
+                                        provider.deleteFavorite(
+                                            widget.resultDetails.id);
+                                        widget.resultDetails.isFavorite = 0;
+                                      });
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text(
+                                            'Telah dihapus dari favorite',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  icon: isFav == 1
+                                      ? Icon(Icons.favorite,
+                                          color: Colors.red[800])
+                                      : Icon(
+                                          Icons.favorite,
+                                          color: greyColor,
+                                        ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        top: 10, left: 10, right: 10),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          darkColor.withOpacity(0),
+                                          darkColor.withOpacity(0.5)
+                                        ],
+                                      ),
+                                    ),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back,
+                                        color: whiteColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            header(),
+                          ],
+                        ),
+                      ),
+                      title(),
+                      Divider(
+                        height: 15,
+                        thickness: 10,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30, left: 20),
+                        child: Text(
+                          'Makanan',
+                          style: darkTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: semiBold,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  header(),
-                ],
-              ),
-            ),
-            title(),
-            Divider(
-              height: 15,
-              thickness: 10,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 30, left: 20),
-              child: Text(
-                'Makanan',
-                style: darkTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: semiBold,
-                ),
-              ),
-            ),
-            makanan(),
-            Container(
-              margin: EdgeInsets.only(top: 30, left: 20),
-              child: Text(
-                'Minuman',
-                style: darkTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: semiBold,
-                ),
-              ),
-            ),
-            minuman(),
-            SizedBox(
-              height: 16,
-            ),
-            Divider(
-              height: 15,
-              thickness: 10,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 30, left: 20, right: 20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Ulasan Pembeli',
-                      style: darkTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: semiBold,
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/review-page',
-                        arguments: ReviewArgs(
-                          id: resultDetails.id,
+                      makanan(),
+                      Container(
+                        margin: EdgeInsets.only(top: 30, left: 20),
+                        child: Text(
+                          'Minuman',
+                          style: darkTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: semiBold,
+                          ),
                         ),
-                      );
-                    },
-                    child: Text(
-                      'Tambah Ulasan',
-                      style: darkTextStyle.copyWith(
-                        fontSize: 14,
                       ),
-                    ),
+                      minuman(),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Divider(
+                        height: 15,
+                        thickness: 10,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Ulasan Pembeli',
+                                style: darkTextStyle.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: semiBold,
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/review-page',
+                                  arguments: ReviewArgs(
+                                    id: widget.resultDetails.id,
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Tambah Ulasan',
+                                style: darkTextStyle.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      review(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            review(),
-            SizedBox(
-              height: 30,
-            ),
-          ],
-        ),
-      ),
+                ),
+              );
+            });
+      },
     );
   }
 }

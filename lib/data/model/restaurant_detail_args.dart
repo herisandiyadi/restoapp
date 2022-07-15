@@ -1,5 +1,5 @@
 class RestaurantDetailsArgs {
-  final String id;
+  final String? id;
 
   RestaurantDetailsArgs({required this.id});
 }

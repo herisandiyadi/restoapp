@@ -31,18 +31,20 @@ class RestaurantDetails {
     required this.menus,
     required this.rating,
     required this.customerReviews,
+    required this.isFavorite,
   });
 
-  String id;
-  String name;
-  String description;
-  String city;
-  String address;
-  String pictureId;
-  List<Category> categories;
-  Menus menus;
-  double rating;
-  List<CustomerReview> customerReviews;
+  late String id;
+  late String name;
+  late String description;
+  late String city;
+  late String address;
+  late String pictureId;
+  late List<Category> categories;
+  late Menus menus;
+  late double rating;
+  late List<CustomerReview> customerReviews;
+  late int isFavorite = 0;
 
   factory RestaurantDetails.fromJson(Map<String, dynamic> json) =>
       RestaurantDetails(
@@ -58,7 +60,38 @@ class RestaurantDetails {
         rating: json["rating"].toDouble(),
         customerReviews: List<CustomerReview>.from(
             json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
+        isFavorite: 0,
       );
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'city': city,
+      'pictureId': pictureId,
+      'rating': rating,
+      'address': address,
+      'categories': categories,
+      'menus': menus,
+      'customerReviews': customerReviews,
+      'isFavorite': isFavorite
+    };
+  }
+
+  RestaurantDetails.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    description = map['description'];
+    city = map['city'];
+    pictureId = map['pictureId'];
+    rating = map['rating'];
+    isFavorite = map['name'];
+    name = map['name'];
+    address = map['address'];
+    categories = map['categories'];
+    menus = map['menus'];
+    customerReviews = map['customerReviews'];
+  }
 }
 
 class Category {
