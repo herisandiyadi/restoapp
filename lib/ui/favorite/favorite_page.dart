@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/restaurant_detail_args.dart';
 import 'package:restaurant_app/provider/db_provider.dart';
-import 'package:restaurant_app/ui/dashboard_page.dart';
 
 class FavoritePage extends StatelessWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -19,21 +18,6 @@ class FavoritePage extends StatelessWidget {
           style: darkTextStyle.copyWith(fontSize: 16, fontWeight: bold),
         ),
         centerTitle: true,
-        // leading: IconButton(
-        //   onPressed: () {
-        //     Navigator.of(context).pushAndRemoveUntil(
-        //         MaterialPageRoute(
-        //           builder: (context) => DashboardPage(
-        //             selectedPage: 0,
-        //           ),
-        //         ),
-        //         (route) => false);
-        //   },
-        //   icon: Icon(
-        //     Icons.arrow_back_ios,
-        //     color: darkColor,
-        //   ),
-        // ),
       ),
       body: Consumer<DbProvider>(
         builder: (context, provider, child) {

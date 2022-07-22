@@ -24,13 +24,13 @@ class CardRestaurant extends StatelessWidget {
       child: Stack(
         children: [
           Hero(
-            tag: images_url + restaurantElement!.pictureId!,
+            tag: images_url + restaurantElement!.pictureId,
             child: Container(
               height: 300,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image:
-                      NetworkImage(images_url + restaurantElement!.pictureId!),
+                      NetworkImage(images_url + restaurantElement!.pictureId),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -64,7 +64,7 @@ class CardRestaurant extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        restaurantElement!.name!,
+                        restaurantElement!.name,
                         style: whiteTextStyle.copyWith(
                           fontSize: 18,
                           fontWeight: semiBold,
@@ -76,7 +76,7 @@ class CardRestaurant extends StatelessWidget {
                     children: [
                       Icon(Icons.room, color: orangeColor),
                       Text(
-                        restaurantElement!.city!,
+                        restaurantElement!.city,
                         style: whiteTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: semiBold,

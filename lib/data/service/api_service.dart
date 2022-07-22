@@ -13,9 +13,12 @@ class ApiService {
   static final String _detail = 'detail/';
   static final String _search = 'search?q=';
   static final String _review = 'review';
+  final http.Client client;
+
+  ApiService({required this.client});
 
   Future<Restaurant> getData() async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.parse(_baseUrl + _list),
     );
 
@@ -28,7 +31,7 @@ class ApiService {
 
   Future<RestaurantDetail> getDetail(String id) async {
     final String _detailUrl = _baseUrl + _detail + id;
-    final response = await http.get(
+    final response = await client.get(
       Uri.parse(_detailUrl),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -40,7 +43,7 @@ class ApiService {
 
   Future<RestaurantSearch> getSearch(String query) async {
     final String _searchUrl = _baseUrl + _search + query;
-    final response = await http.get(Uri.parse(_searchUrl));
+    final response = await client.get(Uri.parse(_searchUrl));
     if (response.statusCode == 200 || response.statusCode == 201) {
       return RestaurantSearch.fromJson(json.decode(response.body));
     } else {
@@ -70,11 +73,5 @@ class ApiService {
     } else {
       throw Exception('Data tidak berhasil ditambah');
     }
-
-    // if (response.statusCode == 201 | response.statusCode == 201) {
-    //   return CustomerReview.fromJson(jsonObject);
-    // } else {
-    //   throw Exception('Data tidak berhasil di tambahkan!');
-    // }
   }
 }

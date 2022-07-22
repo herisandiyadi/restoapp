@@ -1,5 +1,3 @@
-// ignore_for_file: sized_box_for_whitespace, avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +21,6 @@ class _ListDetailState extends State<ListDetail> {
   @override
   Widget build(BuildContext context) {
     final providerDb = Provider.of<DbProvider>(context, listen: false);
-    // final restoFav = providerDb.restoFavorite;
-    // restoFav.map((e) => e.id);
 
     Widget header() {
       return Container(
@@ -77,13 +73,13 @@ class _ListDetailState extends State<ListDetail> {
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
+                        child: SizedBox(
                           width: 150,
                           height: 150,
                           child: Column(
                             children: [
                               Icon(Icons.lunch_dining, size: 100),
-                              Container(
+                              SizedBox(
                                 width: 100,
                                 child: Text(
                                   foods.name,
@@ -116,13 +112,13 @@ class _ListDetailState extends State<ListDetail> {
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
+                        child: SizedBox(
                           width: 150,
                           height: 150,
                           child: Column(
                             children: [
                               Icon(Icons.local_bar, size: 100),
-                              Container(
+                              SizedBox(
                                 width: 100,
                                 child: Text(
                                   drinks.name,
@@ -232,7 +228,7 @@ class _ListDetailState extends State<ListDetail> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: widget.resultDetails.customerReviews
-              .map((reviews) => Container(
+              .map((reviews) => SizedBox(
                     width: 360,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 14, right: 14),
@@ -260,7 +256,7 @@ class _ListDetailState extends State<ListDetail> {
             future: provider.getFavById(widget.resultDetails.id),
             builder: (context, snapshot) {
               var isFav = snapshot.data?.favorite;
-              print(isFav);
+
               return Scaffold(
                 backgroundColor: whiteColor,
                 body: SafeArea(

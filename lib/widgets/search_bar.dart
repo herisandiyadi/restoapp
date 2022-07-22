@@ -15,6 +15,13 @@ class SearchBarWidget extends StatefulWidget {
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   String queries = '';
   final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<SearchRestaurantProvider>(
@@ -61,6 +68,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                               _controller.clear();
                               setState(() {
                                 queries = '';
+                                dispose();
                               });
                             }
                           },

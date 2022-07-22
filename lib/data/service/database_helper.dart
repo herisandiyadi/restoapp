@@ -21,9 +21,6 @@ class DatabaseHelper {
     var db = openDatabase(
       join(path, 'resto_db.db'),
       onCreate: (db, version) async {
-        // await db.execute(
-        //   '''CREATE TABLE $_tableName (id INTEGER PRIMARY KEY, name TEXT, description TEXT, pictureId TEXT, city TEXT, rating REAL, address TEXT, categories TEXT, menus TEXT, customerReviews TEXT, isFavorite INTEGER)''',
-        // );
         await db.execute(
           '''CREATE TABLE $_tableName (id TEXT PRIMARY KEY, favorite INTEGER, name TEXT, imageurl TEXT, city TEXT)''',
         );

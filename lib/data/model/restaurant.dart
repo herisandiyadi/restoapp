@@ -1,4 +1,6 @@
-class Restaurant {
+import 'package:equatable/equatable.dart';
+
+class Restaurant extends Equatable {
   Restaurant({
     required this.error,
     required this.message,
@@ -6,10 +8,10 @@ class Restaurant {
     required this.restaurants,
   });
 
-  bool? error;
-  String? message;
-  int? count;
-  List<RestaurantElement?> restaurants;
+  final bool error;
+  final String message;
+  final int count;
+  final List<RestaurantElement> restaurants;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         error: json["error"],
@@ -23,11 +25,14 @@ class Restaurant {
         "error": error,
         "message": message,
         "count": count,
-        "restaurants": List<dynamic>.from(restaurants.map((x) => x?.toJson())),
+        "restaurants": List<dynamic>.from(restaurants.map((x) => x.toJson())),
       };
+
+  @override
+  List<Object?> get props => [error, message, count, restaurants];
 }
 
-class RestaurantElement {
+class RestaurantElement extends Equatable {
   RestaurantElement(
       {required this.id,
       required this.name,
@@ -37,15 +42,15 @@ class RestaurantElement {
       required this.rating,
       required this.isFavorite});
 
-  late String? id;
-  late String? name;
-  late String? description;
-  late String? pictureId;
-  late String? city;
-  late double? rating;
+  late String id;
+  late String name;
+  late String description;
+  late String pictureId;
+  late String city;
+  late double rating;
   late bool isFavorite = false;
 
-  Map<String?, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
@@ -85,4 +90,7 @@ class RestaurantElement {
         "city": city,
         "rating": rating,
       };
+
+  @override
+  List<Object?> get props => [id, name, description, pictureId, city, rating];
 }

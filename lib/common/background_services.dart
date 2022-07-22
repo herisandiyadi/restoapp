@@ -1,6 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:http/http.dart';
 import 'package:restaurant_app/common/notification_helper.dart';
 import 'package:restaurant_app/data/service/api_service.dart';
 import 'package:restaurant_app/main.dart';
@@ -23,17 +24,14 @@ class BackgroundService {
   }
 
   static Future<void> callback() async {
-    print('Alarm menyala');
     final NotificationHelper _notificationHelper = NotificationHelper();
-    var result = await ApiService().getData();
+    var result = await ApiService(client: Client()).getData();
     await _notificationHelper.showNotification(
         flutterLocalNotificationsPlugin, result);
-    // di 12
+
     _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);
     _uiSendPort?.send(null);
   }
 
-  Future<void> someTask() async {
-    print('update data from the background isolate');
-  }
+  Future<void> someTask() async {}
 }

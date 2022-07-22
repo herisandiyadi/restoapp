@@ -5,13 +5,13 @@ import 'dart:io';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/background_services.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/notification_helper.dart';
 import 'package:restaurant_app/common/scheduling_provider.dart';
 import 'package:restaurant_app/common/style.dart';
-import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/data/model/restaurant_detail_args.dart';
 import 'package:restaurant_app/data/service/api_service.dart';
 import 'package:restaurant_app/provider/db_provider.dart';
@@ -51,7 +51,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final NotificationHelper _notificationHelper = NotificationHelper();
   @override
   Widget build(BuildContext context) {
     Widget splashScreen() {
@@ -77,14 +76,15 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider<RestoProvider>(
           create: (_) => RestoProvider(
-            apiService: ApiService(),
+            apiService: ApiService(client: Client()),
           ),
         ),
         ChangeNotifierProvider<ReviewProvider>(
           create: (_) => ReviewProvider(),
         ),
         ChangeNotifierProvider<SearchRestaurantProvider>(
-          create: (_) => SearchRestaurantProvider(apiService: ApiService()),
+          create: (_) => SearchRestaurantProvider(
+              apiService: ApiService(client: Client())),
         ),
         ChangeNotifierProvider<DbProvider>(
           create: (_) => DbProvider(),
@@ -114,18 +114,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _notificationHelper.configureSelectNotificationSubject(
-  //     RestaurantDetail.,
-  //   );
-  // }
-
-  // @override
-  // void dispose() {
-  //   selectNotificationSubject.close();
-  //   super.dispose();
-  // }
 }

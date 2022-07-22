@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors, sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 
@@ -29,7 +27,7 @@ class InputTextField extends StatelessWidget {
             fontWeight: semiBold,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 6,
         ),
         Container(

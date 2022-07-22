@@ -22,9 +22,9 @@ class CardListHorizon extends StatelessWidget {
                   height: 150,
                   width: 150,
                   child: Hero(
-                    tag: images_url + restoResult!.pictureId!,
+                    tag: images_url + restoResult!.pictureId,
                     child: Image.network(
-                      images_url + restoResult!.pictureId!,
+                      images_url + restoResult!.pictureId,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -33,7 +33,7 @@ class CardListHorizon extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(
-                  restoResult!.name!,
+                  restoResult!.name,
                   style: darkTextStyle.copyWith(fontSize: 14, fontWeight: bold),
                 ),
               ),
@@ -46,7 +46,7 @@ class CardListHorizon extends StatelessWidget {
                       color: orangeColor,
                     ),
                     Text(
-                      restoResult!.city!,
+                      restoResult!.city,
                       style: darkTextStyle.copyWith(
                         fontSize: 14,
                       ),

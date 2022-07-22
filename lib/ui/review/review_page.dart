@@ -1,6 +1,5 @@
-// ignore_for_file: sized_box_for_whitespace
-
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/restaurant_detail_args.dart';
 import 'package:restaurant_app/data/service/api_service.dart';
@@ -54,7 +53,7 @@ class ReviewPage extends StatelessWidget {
                     SizedBox(
                       height: 6,
                     ),
-                    Container(
+                    SizedBox(
                       height: 44,
                       width: double.infinity,
                       child: TextField(
@@ -118,9 +117,8 @@ class ReviewPage extends StatelessWidget {
                   color: greenColor,
                   child: TextButton(
                     onPressed: () async {
-                      // print(idData);
-                      ApiService().addReview(reviewArgs.id, nameController.text,
-                          reviewController.text);
+                      ApiService(client: Client()).addReview(reviewArgs.id,
+                          nameController.text, reviewController.text);
                       Container(
                         child: Center(child: CircularProgressIndicator()),
                       );

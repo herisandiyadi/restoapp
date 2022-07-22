@@ -1,16 +1,11 @@
-// ignore_for_file: prefer_const_constructors, unused_field, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/home/list_recomend_resto.dart';
 import 'package:restaurant_app/ui/home/list_resto.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -79,10 +74,6 @@ class _HomePageState extends State<HomePage> {
               height: 600,
               child: ListResto(),
             ),
-            // SizedBox(
-            //   height: 640,
-            //   child: ListResto(),
-            // ),
           ],
         ),
       ),

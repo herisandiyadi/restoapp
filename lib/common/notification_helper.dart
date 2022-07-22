@@ -31,9 +31,7 @@ class NotificationHelper {
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {
-      if (payload != null) {
-        // print('Notification payload: ' + payload);
-      }
+      if (payload != null) {}
       selectNotificationSubject.add(payload ?? 'empty payload');
     });
   }
@@ -62,11 +60,11 @@ class NotificationHelper {
     var random = Random();
     var length = restaurant.restaurants.length;
     var dataRandom = random.nextInt(length - 1);
-    var titleResto = restaurant.restaurants[dataRandom]?.name;
+    var titleResto = restaurant.restaurants[dataRandom].name;
 
     await flutterLocalNotificationsPlugin.show(
         0, titleNotification, titleResto, platformChannelSpecifics,
-        payload: json.encode(restaurant.restaurants[dataRandom]!.toJson()));
+        payload: json.encode(restaurant.restaurants[dataRandom].toJson()));
   }
 
   void configureSelectNotificationSubject(String route) {

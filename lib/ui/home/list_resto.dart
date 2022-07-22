@@ -5,22 +5,17 @@ import 'package:restaurant_app/data/model/restaurant_detail_args.dart';
 import 'package:restaurant_app/provider/resto_provider.dart';
 import 'package:restaurant_app/widgets/card_restaurants.dart';
 
-class ListResto extends StatefulWidget {
+class ListResto extends StatelessWidget {
   const ListResto({Key? key}) : super(key: key);
 
   @override
-  State<ListResto> createState() => _ListRestoState();
-}
-
-class _ListRestoState extends State<ListResto> {
-  @override
   Widget build(BuildContext context) {
     return Consumer<RestoProvider?>(builder: (context, state, _) {
-      if (state?.state == ResultState.Loading) {
+      if (state?.state == ResultState.loading) {
         return Center(
           child: CircularProgressIndicator(),
         );
-      } else if (state!.state == ResultState.HasData) {
+      } else if (state!.state == ResultState.hasData) {
         return ListView.builder(
             itemCount: state.result?.restaurants.length,
             itemBuilder: (context, index) {
@@ -33,11 +28,11 @@ class _ListRestoState extends State<ListResto> {
                 ),
               );
             });
-      } else if (state.state == ResultState.NoData) {
+      } else if (state.state == ResultState.noData) {
         return Text(' No Data');
-      } else if (state.state == ResultState.Error) {
+      } else if (state.state == ResultState.error) {
         return Text(state.message);
-      } else if (state.state == ResultState.NoInternet) {
+      } else if (state.state == ResultState.noInternet) {
         return Center(
             child: Text(
           state.message,

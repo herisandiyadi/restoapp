@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/service/api_service.dart';
@@ -6,23 +7,18 @@ import 'package:restaurant_app/data/model/restaurant_detail_args.dart';
 import 'package:restaurant_app/provider/resto_detail_provider.dart';
 import 'package:restaurant_app/ui/detail/list_detail.dart';
 
-class DetailPage extends StatefulWidget {
+class DetailPage extends StatelessWidget {
   final RestaurantDetailsArgs detailsArgs;
 
   const DetailPage({Key? key, required this.detailsArgs}) : super(key: key);
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
-}
-
-class _DetailPageState extends State<DetailPage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ChangeNotifierProvider<RestoDetailProvider>(
         create: (_) => RestoDetailProvider(
-          apiService: ApiService(),
-          id: widget.detailsArgs.id!,
+          apiService: ApiService(client: Client()),
+          id: detailsArgs.id!,
         ),
         child: Consumer<RestoDetailProvider>(
           builder: (context, state, _) {

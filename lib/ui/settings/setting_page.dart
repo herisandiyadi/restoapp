@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/common/background_services.dart';
 import 'package:restaurant_app/common/scheduling_provider.dart';
 import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/ui/dashboard_page.dart';
@@ -17,7 +15,6 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  bool _on = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,58 +48,16 @@ class _SettingPageState extends State<SettingPage> {
         child: Column(
           children: [
             Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SwitchListTile(
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Daily Reminder',
-                          style: darkTextStyle.copyWith(
-                              fontSize: 18, fontWeight: semiBold),
-                        ),
-                        Text(
-                          'Set reminder 11.00 AM',
-                          style: darkTextStyle.copyWith(fontSize: 12),
-                        )
-                      ],
-                    ),
-                    value: _on,
-                    onChanged: (bool value) {
-                      setState(() {
-                        if (_on == false) {
-                          _on = value;
-                          var snackBar = SnackBar(
-                            backgroundColor: greenColor,
-                            duration: Duration(seconds: 1),
-                            content: Text(
-                              'Reminder diaktifkan',
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          AndroidAlarmManager.periodic(Duration(seconds: 15), 1,
-                              BackgroundService.callback,
-                              exact: true, wakeup: true);
-                        } else {
-                          _on = value;
-                          var snackBar = SnackBar(
-                            backgroundColor: redColor,
-                            duration: Duration(seconds: 1),
-                            content: Text(
-                              'Reminder dinonaktifkan',
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          AndroidAlarmManager.cancel(1);
-                        }
-                      });
-                    }),
-              ),
-            ),
-            Material(
               child: ListTile(
-                title: Text('Scheduling Alarm'),
+                title: Text(
+                  'Daily Reminder',
+                  style: darkTextStyle.copyWith(
+                      fontSize: 18, fontWeight: semiBold),
+                ),
+                subtitle: Text(
+                  'Set reminder 11.00 AM',
+                  style: darkTextStyle.copyWith(fontSize: 12),
+                ),
                 trailing: Consumer<SchedulingProvider>(
                   builder: (context, schedule, _) {
                     return Switch.adaptive(
@@ -111,14 +66,14 @@ class _SettingPageState extends State<SettingPage> {
                         if (Platform.isIOS) {
                           customDialog(context);
                         } else {
-                          schedule.scheduledNews(value);
+                          schedule.scheduledNews(value, context);
                         }
                       },
                     );
                   },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
