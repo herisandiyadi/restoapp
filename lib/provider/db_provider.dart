@@ -29,7 +29,7 @@ class DbProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<RestoFavorite> getFavById(String id) async {
+  Future<RestoFavorite?> getFavById(String id) async {
     return await _dbHelper.getFavById(id);
   }
 }

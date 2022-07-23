@@ -252,7 +252,7 @@ class _ListDetailState extends State<ListDetail> {
 
     return Consumer<DbProvider>(
       builder: (context, provider, state) {
-        return FutureBuilder<RestoFavorite>(
+        return FutureBuilder<RestoFavorite?>(
             future: provider.getFavById(widget.resultDetails.id),
             builder: (context, snapshot) {
               var isFav = snapshot.data?.favorite;

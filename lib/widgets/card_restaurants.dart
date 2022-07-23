@@ -23,16 +23,12 @@ class CardRestaurant extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          Hero(
-            tag: images_url + restaurantElement!.pictureId,
-            child: Container(
-              height: 300,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image:
-                      NetworkImage(images_url + restaurantElement!.pictureId),
-                  fit: BoxFit.cover,
-                ),
+          Container(
+            height: 300,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(images_url + restaurantElement!.pictureId),
+                fit: BoxFit.cover,
               ),
             ),
           ),

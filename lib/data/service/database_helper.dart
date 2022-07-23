@@ -51,11 +51,15 @@ class DatabaseHelper {
     return result.map((e) => RestoFavorite.fromMap(e)).toList();
   }
 
-  Future<RestoFavorite> getFavById(String id) async {
+  Future<RestoFavorite?> getFavById(String id) async {
     final db = await database;
     List<Map<String, dynamic>> result =
         await db.query(_tableName, where: 'id= ? ', whereArgs: [id]);
-    return result.map((e) => RestoFavorite.fromMap(e)).first;
+
+    if (result.isNotEmpty) {
+      return result.map((e) => RestoFavorite.fromMap(e)).first;
+    }
+    return null;
   }
 
   factory DatabaseHelper() => _databaseHelper ?? DatabaseHelper._internal();

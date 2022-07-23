@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/scheduling_provider.dart';
 import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/ui/dashboard_page.dart';
 import 'package:restaurant_app/widgets/custom_dialog.dart';
 
@@ -43,39 +44,44 @@ class _SettingPageState extends State<SettingPage> {
           ),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Card(
-              child: ListTile(
-                title: Text(
-                  'Daily Reminder',
-                  style: darkTextStyle.copyWith(
-                      fontSize: 18, fontWeight: semiBold),
-                ),
-                subtitle: Text(
-                  'Set reminder 11.00 AM',
-                  style: darkTextStyle.copyWith(fontSize: 12),
-                ),
-                trailing: Consumer<SchedulingProvider>(
-                  builder: (context, schedule, _) {
-                    return Switch.adaptive(
-                      value: schedule.isScheduled,
-                      onChanged: (value) async {
-                        if (Platform.isIOS) {
-                          customDialog(context);
-                        } else {
-                          schedule.scheduledNews(value, context);
-                        }
+      body: Consumer<PreferencesProvider>(
+        builder: (context, provider, child) {
+          return Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Card(
+                  child: ListTile(
+                    title: Text(
+                      'Daily Reminder',
+                      style: darkTextStyle.copyWith(
+                          fontSize: 18, fontWeight: semiBold),
+                    ),
+                    subtitle: Text(
+                      'Set reminder 11.00 AM',
+                      style: darkTextStyle.copyWith(fontSize: 12),
+                    ),
+                    trailing: Consumer<SchedulingProvider>(
+                      builder: (context, schedule, _) {
+                        return Switch.adaptive(
+                          value: provider.isDailyNotif,
+                          onChanged: (value) async {
+                            if (Platform.isIOS) {
+                              customDialog(context);
+                            } else {
+                              schedule.scheduledNews(value, context);
+                              provider.enableDailyNotif(value);
+                            }
+                          },
+                        );
                       },
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -7,7 +7,7 @@ import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/data/model/restaurant_search.dart';
 import 'package:restaurant_app/data/service/api_service.dart';
 
-import 'test_resto_app.mocks.dart';
+import 'resto_app_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
